@@ -83,6 +83,12 @@ Phenom II X3 720 does not. Ryzen processors work just fine.
 
   This step may need to be adapted for your Linux distribution.
 
+* Add user to the `kvm` group (might be needed).
+
+  ```
+  sudo usermod -aG kvm $(whoami)
+  ```
+
 * Clone this repository on your QEMU system. Files from this repository are
   used in the following steps.
 
