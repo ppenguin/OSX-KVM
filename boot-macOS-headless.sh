@@ -68,7 +68,7 @@ args=(
   -monitor stdio
   -vga vmware
   -display none
-  -vnc 0.0.0.0:1,password -k en-us
+  -vnc 0.0.0.0:1,password=on -k en-us
 )
 
 qemu-system-x86_64 "${args[@]}"
