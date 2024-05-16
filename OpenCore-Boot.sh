@@ -23,7 +23,7 @@ MY_OPTIONS="+ssse3,+sse4.2,+popcnt,+avx,+aes,+xsave,+xsaveopt,check"
 # This script works for Big Sur, Catalina, Mojave, and High Sierra. Tested with
 # macOS 10.15.6, macOS 10.14.6, and macOS 10.13.6.
 
-ALLOCATED_RAM="4096" # MiB
+ALLOCATED_RAM="8192" # MiB
 CPU_SOCKETS="1"
 CPU_CORES="2"
 CPU_THREADS="4"
@@ -59,11 +59,14 @@ args=(
   -drive id=MacHDD,if=none,file="$REPO_PATH/mac_hdd_ng.img",format=qcow2
   -device ide-hd,bus=sata.4,drive=MacHDD
   # -netdev tap,id=net0,ifname=tap0,script=no,downscript=no -device virtio-net-pci,netdev=net0,id=net0,mac=52:54:00:c9:18:27
-  -netdev user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=net0,id=net0,mac=52:54:00:c9:18:27
+  # -netdev user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-pci,netdev=net0,id=net0,mac=52:54:00:c9:18:27
+  -netdev user,id=net0,hostfwd=tcp::2222-:22,hostfwd=tcp::5903-:5900 -device virtio-net-pci,netdev=net0,id=net0,mac=52:54:00:c9:18:27
   # -netdev user,id=net0 -device vmxnet3,netdev=net0,id=net0,mac=52:54:00:c9:18:27  # Note: Use this line for High Sierra
   -monitor stdio
   -device vmware-svga
-  # -spice port=5900,addr=127.0.0.1,disable-ticketing=on
+  -vnc to=9 
+  # -vnc 0.0.0.0:5902,password=on -k en-us
+  # -spice port=5900,addr=0.0.0.0,disable-ticketing=on
 )
 
 qemu-system-x86_64 "${args[@]}"
